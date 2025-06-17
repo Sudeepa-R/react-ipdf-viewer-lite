@@ -1,0 +1,42 @@
+# Development files
+src/
+*.ts
+*.tsx
+!dist/**/*.d.ts
+
+# Build system files
+rollup.config.js
+tsconfig.json
+jest.config.js
+
+# Test files
+__tests__/
+*.test.*
+*.spec.*
+test/
+
+# Documentation
+examples/
+docs/
+
+# Environment files
+.env*
+.npmrc
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Git files
+.gitignore
+.gitattributes
+
+# Dependency directories
+node_modules/
+
+# Build artifacts
+*.log
+*.tmp
+*.map
