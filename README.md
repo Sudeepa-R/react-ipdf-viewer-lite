@@ -1,9 +1,9 @@
-# react-ipdf-viewer
+# react-ipdf-viewer-lite
 
-![npm](https://img.shields.io/npm/v/react-ipdf-viewer)
-![license](https://img.shields.io/npm/l/react-ipdf-viewer)
-![downloads](https://img.shields.io/npm/dm/react-ipdf-viewer)
-![types](https://img.shields.io/npm/types/react-ipdf-viewer)
+![npm](https://img.shields.io/npm/v/react-ipdf-viewer-lite)
+![license](https://img.shields.io/npm/l/react-ipdf-viewer-lite)
+![downloads](https://img.shields.io/npm/dm/react-ipdf-viewer-lite)
+![types](https://img.shields.io/npm/types/react-ipdf-viewer-lite)
 
 A React component for viewing PDF documents using Mozilla's `pdf.js`. Embed a customizable PDF viewer in your React applications with page zoom, and download support.
 
