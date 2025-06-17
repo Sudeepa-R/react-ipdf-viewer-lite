@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Sudeepa-R/react-ipdf-viewer-lite.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/Sudeepa-R/react-ipdf-viewer-lite/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/Sudeepa-R/react-ipdf-viewer-lite#readme",
   "keywords": [
     "pdf",
     "viewer",
