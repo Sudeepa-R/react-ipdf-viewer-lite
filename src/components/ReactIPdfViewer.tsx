@@ -16,7 +16,7 @@ export const ReactIPdfViewerLite: React.FC<NexusViewerProps> = ({
   allowPrint = true,
   allowRotate = true,
   allowFullScreen = true,
-  theme = "light",
+  theme = "dark",
   rotateValue = 0,
   autoHeight = true,
   className,
@@ -34,6 +34,7 @@ export const ReactIPdfViewerLite: React.FC<NexusViewerProps> = ({
 
     const mediaProps = {
       fileUrl: effectiveUrl,
+      themes: theme==='dark' 
     };
 
     switch (mediaType) {

@@ -3,6 +3,8 @@ import * as pdfjsLib from "pdfjs-dist";
 import { Button, Divider, Spin, Tooltip } from "antd";
 import {
   DownloadOutlined,
+  MoonOutlined,
+  SunOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
 } from "@ant-design/icons";
@@ -11,14 +13,20 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
 
 interface PDFRendererProps {
   fileUrl: string;
+  themes: boolean;
 }
 
-const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
+const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
   const [pdf, setPdf] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [theme, SetTheme] = useState(true);
   const canvasRefs = useRef<React.MutableRefObject<HTMLCanvasElement | null>[]>(
     []
   );
+
+  useEffect(() => {
+    SetTheme(themes);
+  }, [themes]);
 
   useEffect(() => {
     pdfjsLib
@@ -94,7 +102,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
     <>
       <div
         style={{
-          border: "2px solid black",
+          border: theme ? "2px solid black" : "2px solid #ECECEC",
           margin: "4px",
           marginBottom: "50px",
           height: "95vh",
@@ -110,46 +118,74 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
             display: "flex",
             alignItems: "center",
             gap: 10,
-            justifyContent: "flex-end",
-            background: "#3C3C3C",
+            justifyContent: "space-between",
+            background: theme ? "#3C3C3C" : "#ECECEC",
             height: "45px",
             paddingRight: "10px",
             position: "sticky",
             top: 0,
             zIndex: 10,
+            padding: "0 5px",
           }}
         >
-          <Tooltip title="Zoom In">
-            <Button
-              color="default"
-              variant="filled"
-              style={{ color: "#fff" }}
-              onClick={handleZoomOut}
-            >
-              <ZoomOutOutlined />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Zoom Out">
-            <Button
-              color="default"
-              variant="filled"
-              style={{ color: "#fff" }}
-              onClick={handleZoomIn}
-            >
-              <ZoomInOutlined />
-            </Button>
-          </Tooltip>
-          <Divider style={{ borderColor: "#fff" }} type="vertical" />
-          <Tooltip title="Download">
-            <Button
-              color="default"
-              variant="filled"
-              style={{ color: "#fff" }}
-              onClick={handleDownload}
-            >
-              <DownloadOutlined />
-            </Button>
-          </Tooltip>
+          <div style={{ margin: "0px 10px" }}>
+            <Tooltip title={theme ? "Light mode" : "Dark mode"}>
+              {theme ? (
+                <SunOutlined
+                  style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
+                  onClick={() => {
+                    SetTheme(!theme);
+                  }}
+                />
+              ) : (
+                <MoonOutlined
+                  style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
+                  onClick={() => {
+                    SetTheme(!theme);
+                  }}
+                />
+              )}
+            </Tooltip>
+          </div>
+          <div style={{ margin: "0px 10px" }}>
+            <Tooltip title="Zoom In">
+              <Button
+                color="default"
+                variant="filled"
+                style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
+                onClick={handleZoomOut}
+              >
+                <ZoomOutOutlined />
+              </Button>
+            </Tooltip>
+            <Tooltip title="Zoom Out">
+              <Button
+                color="default"
+                variant="filled"
+                style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
+                onClick={handleZoomIn}
+              >
+                <ZoomInOutlined />
+              </Button>
+            </Tooltip>
+            <Divider
+              style={{
+                borderColor: theme ? "#fff" : "black",
+                margin: "0px 5px",
+              }}
+              type="vertical"
+            />
+            <Tooltip title="Download">
+              <Button
+                color="default"
+                variant="filled"
+                style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
+                onClick={handleDownload}
+              >
+                <DownloadOutlined />
+              </Button>
+            </Tooltip>
+          </div>
         </div>
 
         {/* Scrollable PDF Content */}
@@ -157,8 +193,8 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
           style={{
             flex: 1,
             overflow: "auto",
-            background: "#282828",
-            height:"100vh",
+            background: theme ? "#282828" : "#ffffff",
+            height: "100vh",
             display: "flex",
             alignItems: zoomLevel > 1.9 ? "" : "center",
             justifyContent: zoomLevel > 1.9 ? "" : "center",
