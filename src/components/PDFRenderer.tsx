@@ -139,7 +139,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
               <ZoomInOutlined />
             </Button>
           </Tooltip>
-          <Divider style={{ borderColor: '#fff' }} type="vertical"/>
+          <Divider style={{ borderColor: "#fff" }} type="vertical" />
           <Tooltip title="Download">
             <Button
               color="default"
@@ -158,7 +158,12 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
             flex: 1,
             overflow: "auto",
             background: "#282828",
-            minHeight: "20px",
+            height:"100vh",
+            display: "flex",
+            alignItems: zoomLevel > 1.9 ? "" : "center",
+            justifyContent: zoomLevel > 1.9 ? "" : "center",
+            flexDirection: "column",
+            gap: 3,
           }}
         >
           <div
@@ -166,14 +171,10 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
               transform: `scale(${zoomLevel})`,
               // transformOrigin: "left top",
               transformOrigin: zoomLevel > 1.9 ? "left top" : "center top",
-              width: "100%",
+              width: "50%",
               padding: "5px",
-              display: "flex",
-              alignItems: zoomLevel > 1.9 ? "" : "center",
-              justifyContent: zoomLevel > 1.9 ? "" : "center",
-              flexDirection: "column",
-              gap: 5,
-              minHeight: "20px",
+
+              minHeight: "3px",
             }}
           >
             {pdf &&
@@ -182,8 +183,8 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl }) => {
                   key={index}
                   ref={canvasRefs.current[index]}
                   style={{
-                    width: "50%",
-                    marginBottom: "10px",
+                    width: "100%",
+                    marginBottom: "3px",
                     border: "1px solid #ccc",
                   }}
                 />

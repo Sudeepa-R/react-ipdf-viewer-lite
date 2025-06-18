@@ -1,6 +1,6 @@
 {
   "name": "react-ipdf-viewer-lite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A lightweight, dependency-free media viewer for PDFs and other media types with advanced controls",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -52,7 +52,8 @@
     "blob-url",
     "media-preview",
     "react-ipdf-viewer",
-    "react-pdf-viewer"
+    "react-pdf-viewer",
+    "lite"
   ],
   "author": "Sudeepa R",
   "license": "MIT",
