@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as pdfjsLib from "pdfjs-dist";
-import { Button, Divider, Spin, Tooltip } from "antd";
+import { Button, Divider, Input, Spin, Tooltip } from "antd";
 import {
   DownloadOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
   MoonOutlined,
   SunOutlined,
   ZoomInOutlined,
@@ -19,14 +21,52 @@ interface PDFRendererProps {
 const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
   const [pdf, setPdf] = useState<pdfjsLib.PDFDocumentProxy | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [isFullScreen, SetIsFullScreen] = useState(false);
   const [theme, SetTheme] = useState(true);
+  const [currentPage, SetCurPage] = useState(1);
+  const [totalPage, SetTotalPage] = useState(0);
   const canvasRefs = useRef<React.MutableRefObject<HTMLCanvasElement | null>[]>(
     []
   );
-
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     SetTheme(themes);
-  }, [themes]);
+  }, [themes, currentPage]);
+
+  useEffect(() => {
+    if (!pdf || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = canvasRefs.current.findIndex(
+              (ref) => ref.current === entry.target
+            );
+            if (index !== -1) {
+              SetCurPage(index + 1)
+              console.log(`Page at top: ${index + 1}`);
+            }
+          }
+        });
+      },
+      {
+        root: containerRef.current,
+        threshold: 0.1,
+        rootMargin: "0px 0px 0px 0px",
+      }
+    );
+
+    canvasRefs.current.forEach((ref) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => {
+      canvasRefs.current.forEach((ref) => {
+        if (ref.current) observer.unobserve(ref.current);
+      });
+    };
+  }, [pdf]);
 
   useEffect(() => {
     pdfjsLib
@@ -42,6 +82,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
 
   const renderAllPages = async (loadedPdf: pdfjsLib.PDFDocumentProxy) => {
     const numPages = loadedPdf.numPages;
+    SetTotalPage(numPages);
     canvasRefs.current = Array(numPages)
       .fill(null)
       .map(() => React.createRef<HTMLCanvasElement>());
@@ -69,7 +110,6 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
 
   const handleZoomIn = () => {
     const newZoom = zoomLevel * 1.1;
-    console.log(11111, newZoom);
     const _zoomLevel = newZoom > 5 ? 5 : newZoom;
     setZoomLevel(_zoomLevel);
   };
@@ -95,6 +135,19 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Download failed:", error);
+    }
+  };
+
+  const toggleFullScreen = () => {
+    if (typeof window !== undefined) {
+      SetIsFullScreen(!isFullScreen);
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch((err) => {
+          console.error(`Error attempting fullscreen: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     }
   };
 
@@ -130,21 +183,73 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
         >
           <div style={{ margin: "0px 10px" }}>
             <Tooltip title={theme ? "Light mode" : "Dark mode"}>
-              {theme ? (
-                <SunOutlined
-                  style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
-                  onClick={() => {
-                    SetTheme(!theme);
-                  }}
-                />
-              ) : (
-                <MoonOutlined
-                  style={{ color: theme ? "#fff" : "black", margin: "0px 5px" }}
-                  onClick={() => {
-                    SetTheme(!theme);
-                  }}
-                />
-              )}
+              <Button
+                color="default"
+                variant="filled"
+                style={{
+                  color: theme ? "#fff" : "black",
+                  margin: "0px 5px",
+                }}
+                onClick={() => {
+                  SetTheme(!theme);
+                }}
+              >
+                {theme ? <SunOutlined /> : <MoonOutlined />}
+              </Button>
+            </Tooltip>
+            <Divider
+              style={{
+                borderColor: theme ? "#fff" : "black",
+                margin: "0px 5px",
+              }}
+              type="vertical"
+            />
+            <Tooltip
+              title={!isFullScreen ? "Enter Full Screen" : "Exit Full Screen"}
+            >
+              <Button
+                color="default"
+                variant="filled"
+                style={{
+                  color: theme ? "#fff" : "black",
+                  margin: "0px 10px",
+                }}
+                onClick={toggleFullScreen}
+              >
+                {!isFullScreen ? (
+                  <FullscreenOutlined />
+                ) : (
+                  <FullscreenExitOutlined />
+                )}
+              </Button>
+            </Tooltip>
+          </div>
+          <div style={{ margin: "0px 10px" }}>
+            <Tooltip title="Current page">
+              <Input
+                style={{
+                  width: "50px",
+                  marginRight: "8px",
+                  background: theme ? "#282828" : "#ffffff",
+                  color: theme ? "#fff" : "black",
+                  borderColor: theme ? "#3C3C3C" : "#ECECEC",
+                }}
+                value={currentPage}
+                readOnly
+              />
+            </Tooltip>
+            <span style={{ color: theme ? "#fff" : "black" }}>of</span>
+            <Tooltip title="Total Pages">
+              <Button
+                color="default"
+                variant="filled"
+                style={{
+                  color: theme ? "#fff" : "black",
+                  margin: "0px 2px",
+                }}
+              >
+                {totalPage}
+              </Button>
             </Tooltip>
           </div>
           <div style={{ margin: "0px 10px" }}>
@@ -190,6 +295,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
 
         {/* Scrollable PDF Content */}
         <div
+          ref={containerRef}
           style={{
             flex: 1,
             overflow: "auto",

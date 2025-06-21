@@ -78,8 +78,7 @@ A React component to render a PDF viewer with customizable controls.
 | Prop              | Type      | Description                                                               | Default   | Example                                              |
 | ----------------- | --------- | ------------------------------------------------------------------------- | --------- | ---------------------------------------------------- |
 | `src`             | `string`  | URL or path to the PDF file to render. Also accepts `document={{ url }}`. | None      | `'sample.pdf'` or `'https://example.com/sample.pdf'` |
-| `theme`           | `string`  | Sets the viewer’s theme. Options: `'light'`, `'dark'`.                    | `'dark'` | 
-`'light'`  
+| `theme`           | `string`  | Sets the viewer’s theme. Options: `'light'`, `'dark'`.                    | `'dark'` | `'light'` |
 
 
 ## Error Handling and Troubleshooting
