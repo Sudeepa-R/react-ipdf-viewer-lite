@@ -5,12 +5,13 @@
 ![downloads](https://img.shields.io/npm/dm/react-ipdf-viewer-lite)
 ![types](https://img.shields.io/npm/types/react-ipdf-viewer-lite)
 
-A React component for viewing PDF documents using Mozilla's `pdf.js`. Embed a customizable PDF viewer in your React applications with page zoom, and download support.
+A React component for viewing PDF documents using Mozilla's `pdf.js`. Embed a customizable PDF viewer in your React applications with page zoom, theme, Full Screen, Page Count and download support.
 
 ## Features
 
 - Render PDFs from URLs or local files with smooth navigation.
-- Enable zoom and download via toolbar.
+- Enable zoom download and full-screen via toolbar.
+- Support light and dark themes for accessibility.
 - Compatible with modern browsers (Chrome, Firefox, Safari, Edge).
 - Built-in zoom and navigation controls.
 - TypeScript-compatible for type-safe development.

@@ -1,6 +1,6 @@
 {
   "name": "react-ipdf-viewer-lite",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A lightweight, dependency-free media viewer for PDFs and other media types with advanced controls",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
