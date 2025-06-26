@@ -44,7 +44,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
               (ref) => ref.current === entry.target
             );
             if (index !== -1) {
-              SetCurPage(index + 1)
+              SetCurPage(index + 1);
               console.log(`Page at top: ${index + 1}`);
             }
           }
@@ -332,13 +332,18 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
                 />
               ))}
           </div>
+          {!pdf && (
+            <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:10, width:"300px"}}>
+              <div style={{background:"red", padding:"1rem", color:"#fff"}}>
+                  The uploaded document is either corrupted or not a valid PDF. Ensure the document is a valid PDF and try again.
+              </div>
+              <div style={{ textAlign: "center", marginTop: "50px" }}>
+                <Spin size="large" tip="Loading PDF..." />
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      {!pdf && (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-          <Spin size="large" tip="Loading PDF..." />
-        </div>
-      )}
     </>
   );
 };
