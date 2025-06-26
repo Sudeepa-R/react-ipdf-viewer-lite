@@ -253,7 +253,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
             </Tooltip>
           </div>
           <div style={{ margin: "0px 10px" }}>
-            <Tooltip title="Zoom In">
+            <Tooltip title="Zoom Out">
               <Button
                 color="default"
                 variant="filled"
@@ -263,7 +263,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
                 <ZoomOutOutlined />
               </Button>
             </Tooltip>
-            <Tooltip title="Zoom Out">
+            <Tooltip title="Zoom In">
               <Button
                 color="default"
                 variant="filled"
