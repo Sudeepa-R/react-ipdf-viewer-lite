@@ -30,6 +30,14 @@ Or using Yarn:
 yarn add react-ipdf-viewer-lite
 ```
 
+## Demo
+
+Explore a live demo of `react-ipdf-viewer-lite` in action:
+
+- [Live Demo](https://react-ipdf-viewer-demo.vercel.app/)
+
+See the PDF viewer with zoom, navigation, and theme support directly in your browser.
+
 ### Dependencies
 
 Ensure you have the following peer dependencies installed:
