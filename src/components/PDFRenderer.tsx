@@ -25,6 +25,8 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
   const [theme, SetTheme] = useState(true);
   const [currentPage, SetCurPage] = useState(1);
   const [totalPage, SetTotalPage] = useState(0);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [showError, setShowError] = useState(false);
   const canvasRefs = useRef<React.MutableRefObject<HTMLCanvasElement | null>[]>(
     []
   );
@@ -66,6 +68,24 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
         if (ref.current) observer.unobserve(ref.current);
       });
     };
+  }, [pdf]);
+
+  useEffect(() => {
+    if (!pdf) {
+      const spinnerTimeout = setTimeout(() => {
+        setShowSpinner(true);
+      }, 100);
+
+      const errorTimeout = setTimeout(() => {
+        setShowError(true);
+        setShowSpinner(false);
+      }, 10000);
+
+      return () => {
+        clearTimeout(spinnerTimeout);
+        clearTimeout(errorTimeout);
+      };
+    }
   }, [pdf]);
 
   useEffect(() => {
@@ -333,13 +353,35 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
               ))}
           </div>
           {!pdf && (
-            <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:10, width:"300px"}}>
-              <div style={{background:"red", padding:"1rem", color:"#fff"}}>
-                  The uploaded document is either corrupted or not a valid PDF. Ensure the document is a valid PDF and try again.
-              </div>
-              <div style={{ textAlign: "center", marginTop: "50px" }}>
-                <Spin size="large" tip="Loading PDF..." />
-              </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                gap: 10,
+                width: "300px",
+                padding: "20px",
+              }}
+            >
+              {showSpinner && (
+                <div style={{ textAlign: "center", marginTop: "50px" }}>
+                  <Spin size="large" tip="Loading PDF..." />
+                </div>
+              )}
+              {showError && (
+                <div
+                  style={{
+                    background: "red",
+                    padding: "1rem",
+                    color: "#fff",
+                    textAlign: "center",
+                  }}
+                >
+                  The uploaded document is either corrupted or not a valid PDF.
+                  Ensure the document is a valid PDF and try again.
+                </div>
+              )}
             </div>
           )}
         </div>
