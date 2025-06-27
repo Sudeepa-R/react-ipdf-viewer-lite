@@ -333,7 +333,7 @@ const PDFRenderer: React.FC<PDFRendererProps> = ({ fileUrl, themes }) => {
               transform: `scale(${zoomLevel})`,
               // transformOrigin: "left top",
               transformOrigin: zoomLevel > 1.9 ? "left top" : "center top",
-              width: "50%",
+              width: "60%",
               padding: "5px",
 
               minHeight: "3px",
