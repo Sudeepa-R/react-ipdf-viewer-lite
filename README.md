@@ -7,6 +7,14 @@
 
 A React component for viewing PDF documents using Mozilla's `pdf.js`. Embed a customizable PDF viewer in your React applications with page zoom, theme, Full Screen, Page Count and download support.
 
+## Demo
+
+Explore a live demo of `react-ipdf-viewer-lite` in action:
+
+- [Live Demo](https://react-ipdf-viewer-demo.vercel.app/)
+
+See the PDF viewer with zoom, navigation, and theme support directly in your browser.
+
 ## Features
 
 - Render PDFs from URLs or local files with smooth navigation.
@@ -29,14 +37,6 @@ Or using Yarn:
 ```bash
 yarn add react-ipdf-viewer-lite
 ```
-
-## Demo
-
-Explore a live demo of `react-ipdf-viewer-lite` in action:
-
-- [Live Demo](https://react-ipdf-viewer-demo.vercel.app/)
-
-See the PDF viewer with zoom, navigation, and theme support directly in your browser.
 
 ### Dependencies
 
